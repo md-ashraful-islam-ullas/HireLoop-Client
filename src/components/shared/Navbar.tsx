@@ -49,7 +49,7 @@ const Navbar = () => {
             <span className="h-5 w-px bg-white/15" aria-hidden="true" />
 
             <Link
-              href="/login"
+              href="/sign-in"
               className="text-base font-medium text-[#8e7cff] transition-colors hover:text-[#b2a7ff]"
             >
               Sign In
@@ -103,7 +103,7 @@ const Navbar = () => {
             ))}
 
             <Link
-              href="/login"
+              href="/sign-in"
               onClick={() => setIsMenuOpen(false)}
               className="text-sm font-medium text-[#8e7cff] transition-colors hover:text-[#b2a7ff]"
             >

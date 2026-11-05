@@ -34,12 +34,19 @@ const Banner = () => {
 
       <section className="relative z-10 mx-auto flex max-w-262.5 flex-col items-center text-center">
         {/* Jobs Badge */}
-        <div className="mb-7 flex items-center gap-2.5 rounded-full border border-white/10 bg-white/4.5 px-5 py-2.5 font-mono text-xs font-medium tracking-wide text-white/65 shadow-[0_0_22px_rgba(255,255,255,0.04)] sm:text-sm">
-          <span className="text-base" aria-hidden="true">
-            💼
-          </span>
-          <strong className="font-bold text-white">50,000+</strong>
-          <span>NEW JOBS THIS MONTH</span>
+
+        <div className="relative mb-7 flex w-full items-center justify-center">
+          {/* Horizontal Lines */}
+          <div className="absolute left-1/2 top-1/2 h-px w-[65%] max-w-130 -translate-x-1/2 -translate-y-1/2 bg-linear-to-r from-transparent via-white/25 to-transparent" />
+
+          {/* Badge */}
+          <div className="relative z-10 flex items-center gap-2.5 rounded-full border border-white/10 bg-[#111113] px-5 py-2.5 font-mono text-xs font-medium tracking-wide text-white/65 shadow-[0_0_22px_rgba(255,255,255,0.04)] sm:text-sm">
+            <span className="text-base" aria-hidden="true">
+              💼
+            </span>
+            <strong className="font-bold text-white">50,000+</strong>
+            <span>NEW JOBS THIS MONTH</span>
+          </div>
         </div>
 
         {/* Heading */}
