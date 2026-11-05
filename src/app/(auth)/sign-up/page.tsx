@@ -1,4 +1,4 @@
-
+"use client";
 import Link from "next/link";
 import {
   Card,
@@ -10,8 +10,34 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
 
 const SignUpPage = () => {
+  const router = useRouter();
+  const handleSignUp = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const user = Object.fromEntries(formData.entries()) as {
+      name: string;
+      email: string;
+      password: string;
+    };
+
+    const { data, error } = await authClient.signUp.email({
+      name: user.name,
+      email: user.email,
+      password: user.password,
+    });
+
+    if (data) {
+        console.log("User signed up successfully:", data);
+      router.push("/sign-in");
+    }
+    if (error) {
+      console.error("Error during sign-up:", error);
+    }
+  };
   return (
     <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#030304] px-4 pb-12 pt-32 text-white sm:px-6 sm:pt-36">
       {/* Background Gradient */}
@@ -30,7 +56,7 @@ const SignUpPage = () => {
         </CardHeader>
 
         <CardContent className="px-6 pb-8 sm:px-8 sm:pb-9">
-          <form className="space-y-5">
+          <form onSubmit={handleSignUp} className="space-y-5">
             {/* Full Name */}
             <div className="space-y-2.5">
               <Label

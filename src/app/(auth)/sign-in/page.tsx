@@ -1,4 +1,4 @@
-
+"use client";
 import Link from "next/link";
 import {
   Card,
@@ -10,8 +10,33 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
 
 const SignInPage = () => {
+  const router = useRouter();
+
+  const handleSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const user = Object.fromEntries(formData.entries()) as {
+      email: string;
+      password: string;
+    };
+
+    const { data, error } = await authClient.signIn.email({
+      email: user.email,
+      password: user.password,
+    });
+
+    if (data) {
+        console.log("User signed in successfully:", data);
+      router.push("/");
+    }
+    if (error) {
+      console.error("Error during sign-in:", error);
+    }
+  };
   return (
     <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#030304] px-4 pb-12 pt-32 text-white sm:px-6 sm:pt-36">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_25%,rgba(102,80,237,0.16),transparent_38%),radial-gradient(ellipse_at_top,rgba(65,65,68,0.3),transparent_65%)]" />
@@ -28,7 +53,7 @@ const SignInPage = () => {
         </CardHeader>
 
         <CardContent className="px-6 pb-8 sm:px-8 sm:pb-10">
-          <form className="space-y-6">
+          <form onSubmit={handleSignIn} className="space-y-6">
             {/* Email */}
             <div className="space-y-2.5">
               <Label
