@@ -32,7 +32,7 @@ const Banner = () => {
         />
       </div>
 
-      <section className="relative z-10 mx-auto flex max-w-262.5 flex-col items-center text-center">
+      <section className="relative z-10 mx-auto flex max-w-375 flex-col items-center text-center">
         {/* Jobs Badge */}
 
         <div className="relative mb-7 flex w-full items-center justify-center">
@@ -112,7 +112,7 @@ const Banner = () => {
         </div>
       </section>
 
-      <section className="relative mx-auto mt-10 max-w-275 pb-8 sm:mt-14 lg:mt-16">
+      <section className="relative mx-auto mt-10 max-w-375 pb-8 sm:mt-14 lg:mt-16">
         {/* Job Seekers Text */}
         <p className="relative z-10 mx-auto max-w-150 pt-7.5 text-center text-2xl font-medium leading-snug tracking-[-0.03em] text-white/80 sm:pt-7.5 sm:text-3xl lg:text-[34px]">
           Assisting over <span className="font-bold text-white">15,000</span>{" "}

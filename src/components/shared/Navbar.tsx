@@ -32,7 +32,7 @@ const Navbar = () => {
 
   return (
     <header className="absolute inset-x-0 top-0 z-20 px-4 pt-4 sm:px-6 lg:px-14 lg:pt-5">
-      <nav className="mx-auto max-w-295 rounded-xl bg-[#171719]/90 px-4 py-3 shadow-[0_8px_30px_rgba(0,0,0,0.2)] backdrop-blur-md">
+      <nav className="mx-auto max-w-300 rounded-xl bg-[#171719]/90 px-4 py-3 shadow-[0_8px_30px_rgba(0,0,0,0.2)] backdrop-blur-md">
 
         <div className="flex items-center justify-between">
           {/* Logo */}
