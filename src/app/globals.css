@@ -4,6 +4,17 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@keyframes cta-enter {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 body {
   font-family: var(--font-dosis), sans-serif;
 }
@@ -129,6 +140,6 @@ body {
     @apply bg-background text-foreground;
   }
   html {
-    @apply font-sans;
+    @apply font-sans scroll-smooth;
   }
 }

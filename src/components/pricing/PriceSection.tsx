@@ -15,7 +15,10 @@ const PriceSection = () => {
   const isYearly = billingPeriod === "yearly";
 
   return (
-    <section className="bg-[#030304] px-4 py-20 text-white sm:px-6 sm:py-24 lg:px-14 lg:py-28">
+    <section
+      id="pricing"
+      className="bg-[#030304] px-4 py-20 text-white sm:px-6 sm:py-24 lg:px-14 lg:py-28"
+    >
       <div className="mx-auto max-w-317.5">
         <header className="text-center">
           <div className="flex items-center justify-center gap-3 text-sm font-medium uppercase tracking-[0.12em] text-white/65 sm:text-base">
