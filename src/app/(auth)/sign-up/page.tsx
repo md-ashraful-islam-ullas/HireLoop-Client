@@ -12,6 +12,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
+import { ChevronDown } from "lucide-react";
 
 const SignUpPage = () => {
   const router = useRouter();
@@ -22,16 +23,18 @@ const SignUpPage = () => {
       name: string;
       email: string;
       password: string;
+      role: "seeker" | "recruiter" | "admin";
     };
 
     const { data, error } = await authClient.signUp.email({
       name: user.name,
       email: user.email,
       password: user.password,
+      role: user.role,
     });
 
     if (data) {
-        console.log("User signed up successfully:", data);
+      console.log("User signed up successfully:", data);
       router.push("/sign-in");
     }
     if (error) {
@@ -95,6 +98,35 @@ const SignUpPage = () => {
                 required
                 className="h-12 border-white/15 bg-white/4 px-4 text-base text-white placeholder:text-white/35 focus-visible:border-[#8e7cff] focus-visible:ring-[#6650ed]/35"
               />
+            </div>
+
+            {/* Account Type */}
+            <div className="space-y-2.5">
+              <Label
+                htmlFor="role"
+                className="text-base font-semibold text-white/90"
+              >
+                I want to join as a
+              </Label>
+
+              <div className="relative">
+                <select
+                  id="role"
+                  name="role"
+                  defaultValue="seeker"
+                  required
+                  className="h-12 w-full appearance-none rounded-md border border-white/15 bg-[#111113] px-4 pr-10 text-base text-white outline-none transition focus:border-[#8e7cff] focus:ring-2 focus:ring-[#6650ed]/35"
+                >
+                  <option value="seeker">Job Seeker</option>
+                  <option value="recruiter">Recruiter</option>
+                  <option value="admin">Admin</option>
+                </select>
+
+                <ChevronDown
+                  size={18}
+                  className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-white/60"
+                />
+              </div>
             </div>
 
             {/* Password */}

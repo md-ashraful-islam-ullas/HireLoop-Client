@@ -5,6 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
 
 const navigation = [
   { name: "Browse Jobs", path: "/jobs" },
@@ -14,10 +16,23 @@ const navigation = [
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { data: session, isPending } = authClient.useSession();
+  const router = useRouter();
+
+  const handleSignOut = async () => {
+    const { error } = await authClient.signOut();
+
+    if (error) {
+      console.error("Sign out failed:", error);
+      return;
+    }
+
+    router.push("/sign-in");
+  };
 
   return (
     <header className="absolute inset-x-0 top-0 z-20 px-4 pt-4 sm:px-6 lg:px-14 lg:pt-5">
-      <nav className="mx-auto max-w-295 rounded-xl bg-[#171719]/90 px-4 py-3 shadow-[0_8px_30px_rgba(0,0,0,0.2)] backdrop-blur-md sm:px-5">
+      <nav className="mx-auto max-w-295 rounded-xl bg-[#171719]/90 px-4 py-3 shadow-[0_8px_30px_rgba(0,0,0,0.2)] backdrop-blur-md">
 
         <div className="flex items-center justify-between">
           {/* Logo */}
@@ -48,29 +63,50 @@ const Navbar = () => {
 
             <span className="h-5 w-px bg-white/15" aria-hidden="true" />
 
-            <Link
-              href="/sign-in"
-              className="text-base font-medium text-[#8e7cff] transition-colors hover:text-[#b2a7ff]"
-            >
-              Sign In
-            </Link>
+            {!isPending && (
+              session ? (
+                <div className="flex items-center gap-5">
+                  <span className="text-base font-semibold text-white">
+                    {session.user.name}
+                  </span>
 
-            <Link
-              href="/register"
-              className="rounded-lg bg-[#6650ed] px-5 py-2 text-base font-semibold text-white shadow-[0_0_18px_rgba(102,80,237,0.35)] transition-colors hover:bg-[#7663f2]"
-            >
-              Get Started
-            </Link>
+                  <button
+                    onClick={handleSignOut}
+                    className="rounded-lg border border-white/15 px-5 py-2 text-base font-semibold text-[#8e7cff] transition-colors hover:bg-white/10"
+                  >
+                    Sign Out
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <Link
+                    href="/sign-in"
+                    className="text-base font-medium text-[#8e7cff] transition-colors hover:text-[#b2a7ff]"
+                  >
+                    Sign In
+                  </Link>
+
+                  <Link
+                    href="/sign-up"
+                    className="rounded-lg bg-[#6650ed] px-5 py-2 text-base font-semibold text-white shadow-[0_0_18px_rgba(102,80,237,0.35)] transition-colors hover:bg-[#7663f2]"
+                  >
+                    Get Started
+                  </Link>
+                </>
+              )
+            )}
           </div>
 
           {/* Mobile Menu Button */}
           <div className="flex items-center gap-2 md:hidden">
-            <Link
-              href="/register"
-              className="rounded-lg bg-[#6650ed] px-4 py-2.5 text-xs font-semibold text-white"
-            >
-              Get Started
-            </Link>
+            {!isPending && !session && (
+              <Link
+                href="/sign-up"
+                className="rounded-lg bg-[#6650ed] px-4 py-2.5 text-xs font-semibold text-white"
+              >
+                Get Started
+              </Link>
+            )}
 
             <button
               type="button"
@@ -102,13 +138,33 @@ const Navbar = () => {
               </Link>
             ))}
 
-            <Link
-              href="/sign-in"
-              onClick={() => setIsMenuOpen(false)}
-              className="text-sm font-medium text-[#8e7cff] transition-colors hover:text-[#b2a7ff]"
-            >
-              Sign In
-            </Link>
+            {!isPending && (
+              session ? (
+                <>
+                  <span className="text-sm font-semibold text-white">
+                    {session.user.name}
+                  </span>
+
+                  <button
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      handleSignOut();
+                    }}
+                    className="text-left text-sm font-semibold text-[#8e7cff] hover:text-[#b2a7ff]"
+                  >
+                    Sign Out
+                  </button>
+                </>
+              ) : (
+                <Link
+                  href="/sign-in"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="text-sm font-medium text-[#8e7cff] transition-colors hover:text-[#b2a7ff]"
+                >
+                  Sign In
+                </Link>
+              )
+            )}
           </div>
         )}
       </nav>
