@@ -23,6 +23,7 @@ import {
   ChartNoAxesCombined,
 } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
+import Link from "next/link";
 
 const menuItemByRole = {
   seeker: [
@@ -143,7 +144,7 @@ const menuItemByRole = {
 
 export function DashboardSidebar() {
   const { data: session } = authClient.useSession();
-  const role = session?.user?.role || "admin"; // Default to admin if role is not available
+  const role = session?.user?.role || "recruiter"; // Default to admin if role is not available
 
   console.log("Session:", session);
   console.log("User:", session?.user);
@@ -158,7 +159,7 @@ export function DashboardSidebar() {
           <SidebarMenu>
             {menuItemByRole[role].map((item) => (
               <SidebarMenuItem key={item.id}>
-                <SidebarMenuButton render={<a href={item.url} />}>
+                <SidebarMenuButton render={<Link href={item.url} />}>
                   <item.icon />
                   <span>{item.name}</span>
                 </SidebarMenuButton>
