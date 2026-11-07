@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Dosis } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/shared/Navbar";
-import Footer from "@/components/shared/Footer";
 
 const dosis = Dosis({
   variable: "--font-dosis",
@@ -21,9 +19,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${dosis.variable}  h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-[#030304]">
-        <Navbar />
+        
         {children}
-        <Footer />
+        
       </body>
     </html>
   );

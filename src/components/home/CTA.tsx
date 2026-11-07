@@ -34,12 +34,12 @@ const CTA = () => {
           >
             Create a free account
           </Link>
-          <Link
+          <a
             href="#pricing"
             className="rounded-xl border border-white/15 bg-[#111113]/80 px-6 py-3.5 text-center text-sm font-medium text-white transition-all duration-300 hover:-translate-y-1 hover:border-white/30 hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:text-base"
           >
             View pricing
-          </Link>
+          </a>
         </div>
       </div>
     </section>
