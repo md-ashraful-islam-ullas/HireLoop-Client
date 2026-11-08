@@ -11,6 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { getJobs } from "@/lib/api/jobs";
+import DeleteJobCOnfirmation from "@/app/components/DeleteJobCOnfirmation";
 
 type MongoId = string | { $oid: string };
 
@@ -183,14 +184,10 @@ const RecruiterManageJobsPage = async () => {
                             View
                           </Button>
 
-                          <Button
-                            variant="destructive"
-                            size="sm"
-                            type="button"
-                            className="bg-rose-500/15 text-rose-300 hover:bg-rose-500/25 hover:text-rose-200"
-                          >
-                            Delete
-                          </Button>
+                          <DeleteJobCOnfirmation
+                            jobId={getJobId(job._id)}
+                            jobTitle={job.jobTitle}
+                          />
                         </div>
                       </TableCell>
                     </TableRow>
