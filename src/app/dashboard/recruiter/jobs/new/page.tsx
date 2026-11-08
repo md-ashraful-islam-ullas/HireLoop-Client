@@ -1,12 +1,14 @@
-"use client"
+"use client";
 
-import type { FormEvent } from "react"
-import { CheckCircle2 } from "lucide-react"
+import type { FormEvent } from "react";
+import { CheckCircle2 } from "lucide-react";
 
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { createJob } from "@/lib/actions/jobs";
+import { JobFormData } from "@/types/jobs";
 
 const categories = [
   "Engineering",
@@ -15,32 +17,32 @@ const categories = [
   "Marketing",
   "Data & AI",
   "DevOps",
-]
-const levels = ["Entry", "Junior", "Mid", "Senior", "Lead"]
-const jobTypes = ["Full-time", "Part-time", "Contract", "Internship"]
-const workModes = ["On-site", "Hybrid", "Remote"]
+];
+const levels = ["Entry", "Junior", "Mid", "Senior", "Lead"];
+const jobTypes = ["Full-time", "Part-time", "Contract", "Internship"];
+const workModes = ["On-site", "Hybrid", "Remote"];
 const benefits = [
   "Health insurance",
   "Flexible hours",
   "Paid leave",
   "Learning budget",
   "Bonus",
-]
+];
 
 const fieldClass =
-  "h-12 rounded-lg border-white/15 bg-[#0a0a0b] px-3.5 text-sm text-white placeholder:text-white/45 focus-visible:border-[#6650ed] focus-visible:ring-[#6650ed]/30"
+  "h-12 rounded-lg border-white/15 bg-[#0a0a0b] px-3.5 text-sm text-white placeholder:text-white/45 focus-visible:border-[#6650ed] focus-visible:ring-[#6650ed]/30";
 const areaClass =
-  "rounded-lg border-white/15 bg-[#0a0a0b] px-3.5 py-3 text-sm leading-6 text-white placeholder:text-white/45 focus-visible:border-[#6650ed] focus-visible:ring-[#6650ed]/30"
+  "rounded-lg border-white/15 bg-[#0a0a0b] px-3.5 py-3 text-sm leading-6 text-white placeholder:text-white/45 focus-visible:border-[#6650ed] focus-visible:ring-[#6650ed]/30";
 const selectClass =
-  "h-12 w-full rounded-lg border border-white/15 bg-[#0a0a0b] px-3.5 text-sm text-white outline-none transition-colors focus-visible:border-[#6650ed] focus-visible:ring-3 focus-visible:ring-[#6650ed]/30"
-const labelClass = "text-sm font-medium text-white/85"
+  "h-12 w-full rounded-lg border border-white/15 bg-[#0a0a0b] px-3.5 text-sm text-white outline-none transition-colors focus-visible:border-[#6650ed] focus-visible:ring-3 focus-visible:ring-[#6650ed]/30";
+const labelClass = "text-sm font-medium text-white/85";
 
 type ChipProps = {
-  type: "radio" | "checkbox"
-  name: string
-  value: string
-  defaultChecked?: boolean
-}
+  type: "radio" | "checkbox";
+  name: string;
+  value: string;
+  defaultChecked?: boolean;
+};
 
 function Chip({ type, name, value, defaultChecked }: ChipProps) {
   return (
@@ -56,7 +58,7 @@ function Chip({ type, name, value, defaultChecked }: ChipProps) {
         {value}
       </span>
     </label>
-  )
+  );
 }
 
 function Section({
@@ -64,9 +66,9 @@ function Section({
   description,
   children,
 }: {
-  title: string
-  description: string
-  children: React.ReactNode
+  title: string;
+  description: string;
+  children: React.ReactNode;
 }) {
   return (
     <section className="space-y-5 border-t border-white/10 pt-8 first:border-t-0 first:pt-0">
@@ -76,20 +78,22 @@ function Section({
       </div>
       {children}
     </section>
-  )
+  );
 }
 
 function RecruiterJobPostingPage() {
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
 
-    const formData = new FormData(event.currentTarget)
+    const formData = new FormData(event.currentTarget);
     const jobDetails = {
       ...Object.fromEntries(formData.entries()),
       benefits: formData.getAll("benefits"),
-    }
+    } as JobFormData;
 
-    console.log("Job posting submitted:", jobDetails)
+    console.log("Job posting submitted:", jobDetails);
+    const result = await createJob(jobDetails);
+    console.log("Job created:", result);
   }
 
   return (
@@ -154,49 +158,33 @@ function RecruiterJobPostingPage() {
                 />
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="category" className={labelClass}>
-                  Category
-                </Label>
-                <select
-                  id="category"
-                  name="category"
-                  defaultValue=""
-                  className={selectClass}
-                  required
-                >
-                  <option value="" disabled>
-                    Select category
+              <select
+                id="category"
+                name="category"
+                defaultValue=""
+                className={selectClass}
+              >
+                <option value="">Select category</option>
+                {categories.map((item) => (
+                  <option key={item} value={item}>
+                    {item}
                   </option>
-                  {categories.map((item) => (
-                    <option key={item} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </select>
-              </div>
+                ))}
+              </select>
 
-              <div className="space-y-2">
-                <Label htmlFor="level" className={labelClass}>
-                  Experience level
-                </Label>
-                <select
-                  id="level"
-                  name="level"
-                  defaultValue=""
-                  className={selectClass}
-                  required
-                >
-                  <option value="" disabled>
-                    Select level
+              <select
+                id="level"
+                name="level"
+                defaultValue=""
+                className={selectClass}
+              >
+                <option value="">Select level</option>
+                {levels.map((item) => (
+                  <option key={item} value={item}>
+                    {item}
                   </option>
-                  {levels.map((item) => (
-                    <option key={item} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </select>
-              </div>
+                ))}
+              </select>
             </div>
 
             <fieldset className="space-y-2">
@@ -270,7 +258,9 @@ function RecruiterJobPostingPage() {
                 placeholder="React, Next.js, Tailwind CSS"
                 className={fieldClass}
               />
-              <p className="text-xs text-white/55">Separate skills with commas.</p>
+              <p className="text-xs text-white/55">
+                Separate skills with commas.
+              </p>
             </div>
 
             <fieldset className="space-y-2">
@@ -280,7 +270,12 @@ function RecruiterJobPostingPage() {
               </legend>
               <div className="flex flex-wrap gap-2.5">
                 {benefits.map((item) => (
-                  <Chip key={item} type="checkbox" name="benefits" value={item} />
+                  <Chip
+                    key={item}
+                    type="checkbox"
+                    name="benefits"
+                    value={item}
+                  />
                 ))}
               </div>
             </fieldset>
@@ -418,7 +413,7 @@ function RecruiterJobPostingPage() {
         </form>
       </div>
     </div>
-  )
+  );
 }
 
-export default RecruiterJobPostingPage
+export default RecruiterJobPostingPage;
